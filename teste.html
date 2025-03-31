@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriCalc - Auxílio Nutricional</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #2c8a6a;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .calculator {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2c8a6a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #247158;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            display: none;
+        }
+        .info-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NutriCalc</h1>
+        <p>Calculadora de Consumo Diário de Nutrientes</p>
+    </header>
+
+    <div class="calculator">
+        <h2>Calculadora Nutricional</h2>
+        
+        <label for="weight">Peso (kg):</label>
+        <input type="number" id="weight" min="30" max="200" step="0.1">
+        
+        <label for="activity">Nível de Atividade Física:</label>
+        <select id="activity">
+            <option value="1.2">Sedentário (pouco ou nenhum exercício)</option>
+            <option value="1.375">Levemente ativo (exercício leve 1-3 dias/semana)</option>
+            <option value="1.55">Moderadamente ativo (exercício moderado 3-5 dias/semana)</option>
+            <option value="1.725">Muito ativo (exercício pesado 6-7 dias/semana)</option>
+            <option value="1.9">Extremamente ativo (exercício muito pesado + trabalho físico)</option>
+        </select>
+        
+        <label for="goal">Objetivo:</label>
+        <select id="goal">
+            <option value="maintain">Manter peso</option>
+            <option value="lose">Perder peso</option>
+            <option value="gain">Ganhar massa muscular</option>
+        </select>
+        
+        <button onclick="calculate()">Calcular Necessidades Nutricionais</button>
+        
+        <div id="result" class="result">
+            <h3>Resultados:</h3>
+            <p><strong>Consumo diário de proteínas:</strong> <span id="protein-result"></span></p>
+            <p><strong>Consumo diário de carboidratos:</strong> <span id="carbs-result"></span></p>
+            <p><strong>Consumo diário de creatina:</strong> <span id="creatine-result"></span></p>
+            <p><strong>Calorias diárias estimadas:</strong> <span id="calories-result"></span></p>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h2>Informações Nutricionais</h2>
+        
+        <h3>Proteínas</h3>
+        <p>As proteínas são essenciais para construção e reparação muscular. A recomendação geral para atletas varia entre 1.6g a 2.2g por kg de peso corporal.</p>
+        
+        <h3>Carboidratos</h3>
+        <p>Os carboidratos são a principal fonte de energia para o corpo. A quantidade ideal depende do nível de atividade física e objetivos.</p>
+        
+        <h3>Creatina</h3>
+        <p>A creatina melhora a performance em exercícios de alta intensidade. A dose de manutenção recomendada é de 3-5g por dia após a fase de saturação.</p>
+    </div>
+
+    <footer>
+        <p>NutriCalc © 2023 - Ferramenta de auxílio nutricional</p>
+        <p>Consulte um nutricionista para orientações personalizadas.</p>
+    </footer>
+
+    <script>
+        function calculate() {
+            // Obter valores do formulário
+            const weight = parseFloat(document.getElementById('weight').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+            const goal = document.getElementById('goal').value;
+            
+            if (isNaN(weight) {
+                alert("Por favor, insira seu peso corretamente.");
+                return;
+            }
+            
+            // Calcular necessidades calóricas basais
+            let calories = weight * 24 * activity;
+            
+            // Ajustar calorias conforme objetivo
+            if (goal === 'lose') {
+                calories *= 0.85; // Reduzir 15% para perda de peso
+            } else if (goal === 'gain') {
+                calories *= 1.15; // Aumentar 15% para ganho de massa
+            }
+            
+            // Calcular macros
+            // Proteína: 1.8g-2.2g/kg para ganho de massa, 1.6g-2g/kg para manutenção
+            const proteinPerKg = goal === 'gain' ? 2.2 : 1.8;
+            const protein = Math.round(weight * proteinPerKg);
+            const proteinCalories = protein * 4;
+            
+            // Creatina: 3-5g/dia (padrão)
+            const creatine = goal === 'gain' ? 5 : 3;
+            
+            // Carboidratos: o restante das calorias (considerando 25% de gordura)
+            const fatCalories = calories * 0.25;
+            const carbsCalories = calories - proteinCalories - fatCalories;
+            const carbs = Math.round(carbsCalories / 4);
+            
+            // Exibir resultados
+            document.getElementById('protein-result').textContent = protein + "g (" + (protein * 4) + " kcal)";
+            document.getElementById('carbs-result').textContent = carbs + "g (" + carbsCalories + " kcal)";
+            document.getElementById('creatine-result').textContent = creatine + "g/dia";
+            document.getElementById('calories-result').textContent = Math.round(calories) + " kcal";
+            
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
